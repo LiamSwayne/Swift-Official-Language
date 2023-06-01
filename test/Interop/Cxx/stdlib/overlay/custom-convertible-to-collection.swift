@@ -15,6 +15,19 @@ CxxSequenceTestSuite.test("SimpleSequence to Swift.Array") {
   expectEqual([1, 2, 3, 4] as [Int32], array)
 }
 
+CxxSequenceTestSuite.test("SimpleCopyAwareSequence to Swift.Array") {
+  copiesCount = 0
+
+  let seq = SimpleCopyAwareSequence()
+
+  let seqCopy = seq
+  expectEqual(1, copiesCount) // make sure our copy tracking mechanism works
+
+  let array = Array(seq)
+
+  expectEqual(1, copiesCount) // make sure we don't copy the C++ sequence value unnecessarily
+}
+
 CxxSequenceTestSuite.test("SimpleSequenceWithOutOfLineEqualEqual to Swift.Array") {
   let seq = SimpleSequenceWithOutOfLineEqualEqual()
   let array = Array(seq)
